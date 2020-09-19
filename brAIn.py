@@ -117,7 +117,21 @@ def brAIn(inputString):
         outputString = 'From Wikipedia \'' + wTitle + '\':\n' + wShortDesc + '\nFrom: ' + wURL
 
     # Debug outputs for testing
+    
     #print(outputString)
     return outputString
 
-    #return Content
+def funktionDieNenStringNimmtUndSieGibtZurueckAnzahlZeilenInAbhaengigkeitDerZeilenbreite(input, mz):
+    #Funktionsweiße: Abbau des Strings bis er leer ist. Jedes mal eins dazu Zählen
+    az = 0
+    counter = 0
+    for x in input:
+        if (x == '\n'):
+            az = az + 1
+        counter = counter + 1
+        if (counter > mz):
+            az = az + 1
+            counter = 0
+    dieFinaleAnzahlAnZeilenDieManBenoetigtUmDasGanzeDannAuchWirklichSchoenDarZuStellen = az
+    
+    return dieFinaleAnzahlAnZeilenDieManBenoetigtUmDasGanzeDannAuchWirklichSchoenDarZuStellen
