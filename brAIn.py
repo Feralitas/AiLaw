@@ -26,6 +26,7 @@ from datetime import date
 import datetime
 from enum import Enum  # for enum34, or the stdlib version
 import wikipedia
+import random
 from validate_email import validate_email
 
 ## Umrechnung von Moneyz und so https://pypi.org/project/CurrencyConverter/
@@ -83,8 +84,14 @@ def brAIn(inputString):
     ## If nothing else is fitting we look up in the wikipedia ...
     if (entscheidung == -1):
         wikipedia.set_lang("en")
-        wShortDesc = wikipedia.summary(inputString, sentences=2)
-        wPage = wikipedia.page(inputString)
+
+        try:
+            wPage = wikipedia.page(inputString)
+            wShortDesc = wikipedia.summary(inputString, sentences=2)
+        except wikipedia.DisambiguationError as e:
+            s = random.choice(e.options)
+            wPage = wikipedia.page(s)
+            wShortDesc = wikipedia.summary(s, sentences=2)
         wTitle = wPage.title
         wURL = wPage.url
         entscheidung = Entscheider.wiki
@@ -121,17 +128,3 @@ def brAIn(inputString):
     #print(outputString)
     return outputString
 
-def funktionDieNenStringNimmtUndSieGibtZurueckAnzahlZeilenInAbhaengigkeitDerZeilenbreite(input, mz):
-    #Funktionsweiße: Abbau des Strings bis er leer ist. Jedes mal eins dazu Zählen
-    az = 0
-    counter = 0
-    for x in input:
-        if (x == '\n'):
-            az = az + 1
-        counter = counter + 1
-        if (counter > mz):
-            az = az + 1
-            counter = 0
-    dieFinaleAnzahlAnZeilenDieManBenoetigtUmDasGanzeDannAuchWirklichSchoenDarZuStellen = az
-    
-    return dieFinaleAnzahlAnZeilenDieManBenoetigtUmDasGanzeDannAuchWirklichSchoenDarZuStellen

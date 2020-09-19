@@ -38,6 +38,22 @@ import queue
 from mouseInterfaces import start_mouse_event_listener_thread, stop_mouse_event_listener_thread, command_queue
 from markedtext import get_selected_text
 
+
+def funktionDieNenStringNimmtUndSieGibtZurueckAnzahlZeilenInAbhaengigkeitDerZeilenbreite(input, mz):
+    #Funktionsweiße: Abbau des Strings bis er leer ist. Jedes mal eins dazu Zählen
+    az = 0
+    counter = 0
+    for x in input:
+        if (x == '\n'):
+            az = az + 1
+        counter = counter + 1
+        if (counter > mz):
+            az = az + 1
+            counter = 0
+    dieFinaleAnzahlAnZeilenDieManBenoetigtUmDasGanzeDannAuchWirklichSchoenDarZuStellen = az
+    
+    return dieFinaleAnzahlAnZeilenDieManBenoetigtUmDasGanzeDannAuchWirklichSchoenDarZuStellen
+
 class AFA(App):
     globalText = "test text"
     outTxt = Label(text='Testsss', markup=True, size_hint=(1.0, 1.0), halign="left", valign="middle")
@@ -79,8 +95,8 @@ class AFA(App):
         shell = win32com.client.Dispatch("WScript.Shell")
         shell.SendKeys('%')
         flags, hcursor, (x,y) = win32gui.GetCursorInfo()
-        print("height is " + str(self.outTxt.texture_size[1]))
-        win32gui.SetWindowPos(self.getHandleOfThisWindow(), win32con.HWND_TOP, round(x - width/2), y - 64 - 80, width, height, win32con.SWP_SHOWWINDOW)
+        print("height is " + str(funktionDieNenStringNimmtUndSieGibtZurueckAnzahlZeilenInAbhaengigkeitDerZeilenbreite(self.outTxt.text,100)) + 'lines')
+        win32gui.SetWindowPos(self.getHandleOfThisWindow(), win32con.HWND_TOP, round(x - width/2), y - height - 80, width, height, win32con.SWP_SHOWWINDOW)
         self.makeItForeground()
 
     def hibernate(self):
@@ -89,7 +105,7 @@ class AFA(App):
 
     def startUp(self):
         win32gui.ShowWindow(self.getHandleOfThisWindow(),1)
-        self.PositionToMouse(1000, 400)
+        self.PositionToMouse(1030, funktionDieNenStringNimmtUndSieGibtZurueckAnzahlZeilenInAbhaengigkeitDerZeilenbreite(self.outTxt.text,100)*30)
         self.makeItTransparent(.2)
         self.makeItForeground()
         self.makeItForeground()
