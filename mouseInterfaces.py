@@ -79,7 +79,7 @@ def mouse_event_listener_thread():
     logidevmon.set_specialKey_config(mouseUnitId, 86, True)
     logidevmon.set_specialKey_config(mouseUnitId, 83, True)
     logidevmon.set_specialKey_config(mouseUnitId, 195, True)
-    logidevmon.set_wheel_config(mouseUnitId, divert=True, hires=True, invert=False)
+ #   logidevmon.set_wheel_config(mouseUnitId, divert=True, hires=True, invert=False)
     #logidevmon.set_spyConfig(mouseUnitId, spyButtons=True, spyKeys=False, spyPointer=False, spyThumbWheel=False, spyWheel=True)
     logidevmon.read_events(processEvents)
     Logger.info(f"logidev: Mouse Event Listener Thread Ended")
