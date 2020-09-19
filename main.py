@@ -23,6 +23,7 @@ import random
 import webview
 from kivy.config import Config
 import win32com.client
+from brAIn import brAIn
 
 Config.set('graphics', 'borderless', 'true')
 Config.set('graphics', 'position', 'custom')
@@ -39,7 +40,8 @@ from markedtext import get_selected_text
 
 class AFA(App):
     globalText = "test text"
-    outTxt = Label(text='Testsss', markup=True)
+    outTxt = Label(text='Testsss', markup=True, size_hint=(1.0, 1.0), halign="left", valign="middle")
+    outTxt.bind(size=outTxt.setter('text_size'))  
     def callbackWriteText(self):
         try:
             cmd = command_queue.get_nowait()
@@ -49,7 +51,7 @@ class AFA(App):
                 #webview.create_window('AiLaw', self.globalText)
                 #webview.start()
                 if len(self.globalText) > 0:
-                    self.outTxt.text = '[size=16][color=FFFFFF][font=RobotoMono-Regular]'+ self.globalText +'[/font][/color][/size]'
+                    self.outTxt.text = '[size=16][color=FFFFFF][font=RobotoMono-Regular]'+ brAIn(self.globalText) +'[/font][/color][/size]'
                 self.startUp()
                 
                 self.StatusOfApp = 1
@@ -77,7 +79,8 @@ class AFA(App):
         shell = win32com.client.Dispatch("WScript.Shell")
         shell.SendKeys('%')
         flags, hcursor, (x,y) = win32gui.GetCursorInfo()
-        win32gui.SetWindowPos(self.getHandleOfThisWindow(), win32con.HWND_TOP, round(x - width/2), y - height - 80, width, height, win32con.SWP_SHOWWINDOW)
+        print("height is " + str(self.outTxt.texture_size[1]))
+        win32gui.SetWindowPos(self.getHandleOfThisWindow(), win32con.HWND_TOP, round(x - width/2), y - 64 - 80, width, height, win32con.SWP_SHOWWINDOW)
         self.makeItForeground()
 
     def hibernate(self):
@@ -86,7 +89,7 @@ class AFA(App):
 
     def startUp(self):
         win32gui.ShowWindow(self.getHandleOfThisWindow(),1)
-        self.PositionToMouse(600, 400)
+        self.PositionToMouse(1000, 400)
         self.makeItTransparent(.2)
         self.makeItForeground()
         self.makeItForeground()
@@ -107,14 +110,10 @@ class AFA(App):
 
         
         layout.add_widget(self.outTxt)
-        btn = Button(text='Hello World')
-        layout.add_widget(btn)
-        txt=Label(text='label text')
-        layout.add_widget(txt)
 
 
         Clock.schedule_interval(lambda dt: self.callbackWriteText(), 0.01)
-    #    Clock.schedule_once(lambda dt: self.hibernate(), 0.2) # initialiying the hibernate after start up
+        Clock.schedule_once(lambda dt: self.hibernate(), 0.2) # initialiying the hibernate after start up
         return layout
 
 
