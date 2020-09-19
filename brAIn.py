@@ -89,7 +89,7 @@ def brAIn(inputString):
             wPage = wikipedia.page(inputString)
             wShortDesc = wikipedia.summary(inputString, sentences=2)
         except wikipedia.DisambiguationError as e:
-            s = random.choice(e.options)
+            s = e.options[0]
             wPage = wikipedia.page(s)
             wShortDesc = wikipedia.summary(s, sentences=2)
         wTitle = wPage.title
