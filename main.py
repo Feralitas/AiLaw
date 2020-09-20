@@ -20,7 +20,7 @@ from kivy.uix.image import Image
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.gridlayout import GridLayout
 import random
-import webview
+#import webview
 from kivy.config import Config
 import win32com.client
 from brAIn import brAIn
